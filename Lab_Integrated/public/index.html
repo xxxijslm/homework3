@@ -178,6 +178,13 @@ $(function () {
                 // $("#latestNews").append($li);
                 $li.appendTo("#latestNews");
             }
+            $(".deleteItem").on("click", function() {
+                //alert("delete");
+                // let index = $(this).parent().parent().index();
+                let index = $(this).closest("li").index();
+                //alert(index);
+                alert("delete " + newsList[index].title);
+            })
     }
     
     $("#newItem").on("click", function() {
