@@ -154,6 +154,7 @@ $(function () {
     ];
 
     // 練習與任務:
+    let currentIndex = -1   //create a new item
     downloadAndRefresh();
     function downloadAndRefresh() {
         $.ajax({
@@ -194,9 +195,17 @@ $(function () {
                     downloadAndRefresh();
                 })
             })
+            $(".editItem").click(function() {
+                let index = $(this).closest("li").index();
+                currentIndex = index;
+                $("#newsModal").modal({backdrop : "static"});
+                $("#titleTextBox").prop("value", newsList[index].title);
+                $("#ymdTextBox").val(newsList[index].ymd);
+            })
     }
     
     $("#newItem").on("click", function() {
+        currentIndex = -1;
         //alert("new item");
         $("#newsModal").modal({backdrop : "static"});
     })
@@ -204,20 +213,37 @@ $(function () {
     $("#okButton").click(function() {
         //alert("ok");
         $("#newsModal").modal("hide");
-        let dataToServer = {
-            title: $("#titleTextBox").prop("value"),
-            ymd: $("#ymdTextBox").val()
-        }
+        if (currentIndex < 0){  //new item
+            let dataToServer = {
+                title: $("#titleTextBox").prop("value"),
+                ymd: $("#ymdTextBox").val()
+            }
         //alert(JSON.stringify(dataToServer));
-        $.ajax({
-            type: "post",
-            url: "/home/news",
-            contentType: "application/json",
-            data: JSON.stringify(dataToServer)
-        }).then(function() {
-            //alert("ok");
-            downloadAndRefresh();
-        })
+            $.ajax({
+                type: "post",
+                url: "/home/news",
+                contentType: "application/json",
+                data: JSON.stringify(dataToServer)
+            }).then(function() {
+                //alert("ok");
+                downloadAndRefresh();
+            })
+        }
+        else{   //edit item
+            let dataToServer = {
+                newsId: newsList[currentIndex].newsId,
+                title: $("#titleTextBox").prop("value"),
+                ymd: $("#ymdTextBox").val()
+            }
+            //alert(JSON.stringify(dataToServer));
+            $.ajax({
+                type: "put",
+                url: "/home/news",
+                data: dataToServer
+            }).then(function (){
+                downloadAndRefresh();
+            })
+        }    
     })
 
 
