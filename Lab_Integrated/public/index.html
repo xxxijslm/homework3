@@ -154,18 +154,28 @@ $(function () {
     ];
 
     // 練習與任務:
-    $("#latestNews").empty();
-    for (let i in newsList){
-        let newsItem = newsList[i];
-        let liText = `${newsItem.title} [${newsItem.ymd}]`;
-        //showToast("Test", liText);
-        let $li = $("<li></li>")
-            .text(liText)
-            .addClass("list-group-item") 
-            .append('<span class="pull-right"><button class="btn btn-info btn-xs editItem"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp;<button class="btn btn-danger btn-xs deleteItem"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></span>');
-        // $("#latestNews").append($li);
-        $li.appendTo("#latestNews");
+    $.ajax({
+        type: "get",
+        url: "/home/news"
+    }).then(function(e) {
+        newsList = JSON.parse(e);
+        refreshUI();
+    })
+    function refreshUI() {
+        $("#latestNews").empty();
+            for (let i in newsList){
+                let newsItem = newsList[i];
+                let liText = `${newsItem.title} [${newsItem.ymd}]`;
+                //showToast("Test", liText);
+                let $li = $("<li></li>")
+                    .text(liText)
+                    .addClass("list-group-item") 
+                    .append('<span class="pull-right"><button class="btn btn-info btn-xs editItem"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp;<button class="btn btn-danger btn-xs deleteItem"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></span>');
+                // $("#latestNews").append($li);
+                $li.appendTo("#latestNews");
+            }
     }
+    
 
 
 
