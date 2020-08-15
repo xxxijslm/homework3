@@ -25,7 +25,7 @@ app.set('views', __dirname + '/view');
 
 // 一切就緒，開始接受用戶端連線
 // app.listen(process.env.PORT);
-app.listen(80);
+app.listen(8080);
 console.log("Web伺服器就緒，開始接受用戶端連線.");
 console.log("鍵盤「Ctrl + C」可結束伺服器程式.");
 
