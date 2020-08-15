@@ -154,6 +154,9 @@ $(function () {
     ];
 
     // 練習與任務:
+    // function downloadAndRefresh() {
+
+    // }
     $.ajax({
         type: "get",
         url: "/home/news"
@@ -181,6 +184,16 @@ $(function () {
         $("#newsModal").modal({backdrop : "static"});
     })
 
+    $("#okButton").click(function() {
+        //alert("ok");
+        $("#newsModal").modal("hide");
+        let dataToServer = {
+            title: $("#titleTextBox").prop("value"),
+            ymd: $("#ymdTextBox").val()
+        }
+        alert(JSON.stringify(dataToServer));
+
+    })
 
 
 
