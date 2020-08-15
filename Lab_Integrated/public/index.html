@@ -183,7 +183,16 @@ $(function () {
                 // let index = $(this).parent().parent().index();
                 let index = $(this).closest("li").index();
                 //alert(index);
-                alert("delete " + newsList[index].title);
+                //alert("delete " + newsList[index].title);
+                //alert(newsList[index].newsId);
+                $.ajax({
+                    type: "delete",
+                    url: "/home/news",
+                    data: newsList[index]
+                }).then(function() {
+                    //alert("row delete.");
+                    downloadAndRefresh();
+                })
             })
     }
     
